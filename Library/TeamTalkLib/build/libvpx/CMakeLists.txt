@@ -48,6 +48,7 @@ if (MSVC)
         GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
         GIT_TAG           3c456eb6e
         UPDATE_COMMAND    ""
+        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-x86-win32-vs18-platform-target.patch
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
         CONFIGURE_COMMAND ""
         BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win32.bat

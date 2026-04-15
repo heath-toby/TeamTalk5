@@ -1,0 +1,42 @@
+From d49ba05f70d91fef50ceb540f7c93056491db3b5 Mon Sep 17 00:00:00 2001
+From: Sihu Hwang <129564966+hwangsihu@users.noreply.github.com>
+Date: Sat, 18 Apr 2026 15:03:07 +0900
+Subject: [PATCH 2/2] Fix NSAccessibility API usage for macOS 26 SDK
+
+---
+ source/backends/raw/voiceover_macos.swift | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/source/backends/raw/voiceover_macos.swift b/source/backends/raw/voiceover_macos.swift
+index e7da4c5..1b42369 100644
+--- a/source/backends/raw/voiceover_macos.swift
++++ b/source/backends/raw/voiceover_macos.swift
+@@ -53,8 +53,8 @@
+       pendingText = ""
+       cancelDebounce()
+       DispatchQueue.main.async {
+-        NSAccessibility.post(element: w, notification: .windowCreated)
+-        NSAccessibility.post(element: w, notification: .focusedWindowChanged)
++        NSAccessibilityPostNotification(w, .windowCreated)
++        NSAccessibilityPostNotification(w, .focusedWindowChanged)
+       }
+       return .ok
+     }
+@@ -135,10 +135,10 @@
+       pendingText = ""
+       guard let w = cachedWindow ?? pickBestWindow() else { return }
+       cachedWindow = w
+-      NSAccessibility.post(
+-        element: w,
+-        notification: .announcementRequested,
+-        userInfo: [
++      NSAccessibilityPostNotificationWithUserInfo(
++        w,
++        .announcementRequested,
++        [
+           .announcement: textToSpeak,
+           .priority: NSAccessibilityPriorityLevel.high.rawValue,
+         ]
+-- 
+2.50.1 (Apple Git-155)
+

@@ -164,9 +164,8 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
   option (BUILD_TEAMTALK_CLIENT_QTTEAMTALK "Build Qt TeamTalk client example" ON)
 
-  if (BUILD_TEAMTALK_CLIENT_TOLK)
-    list (APPEND TEAMTALK_LINK_FLAGS Tolk)
-    install (FILES ${TOLK_DLL_FILES} DESTINATION Client/qtTeamTalk)
+  if (BUILD_TEAMTALK_CLIENT_PRISM)
+    list (APPEND TEAMTALK_LINK_FLAGS Prism)
   endif()
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -258,10 +257,12 @@ if (Qt5_FOUND OR Qt6_FOUND)
       endif()
     endif()
 
-    if (BUILD_TEAMTALK_CLIENT_TOLK)
-      target_compile_options(${TEAMTALK_TARGET} PUBLIC -DUNICODE -D_UNICODE -DENABLE_TOLK -D_CRT_SECURE_NO_WARNINGS)
-    elseif (MSVC)
+    if (MSVC)
       target_compile_options(${TEAMTALK_TARGET} PUBLIC -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS)
+    endif()
+
+    if (BUILD_TEAMTALK_CLIENT_PRISM)
+      target_compile_definitions(${TEAMTALK_TARGET} PUBLIC ENABLE_PRISM)
     endif()
 
     # Build translations

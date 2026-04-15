@@ -100,6 +100,10 @@ QTextToSpeech* ttSpeech = nullptr;
 #if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
 QObject* announcerObject = nullptr;
 #endif
+#if defined(ENABLE_PRISM)
+PrismContext* prismContext = nullptr;
+PrismBackend* prismBackend = nullptr;
+#endif
 
 //strip ampersand from menutext
 #define MENUTEXT(text) text.replace("&", "")
@@ -868,37 +872,31 @@ void MainWindow::loadSettings()
 
 void MainWindow::initialScreenReaderSetup()
 {
-#if defined(ENABLE_TOLK) || defined(Q_OS_LINUX)
     if (ttSettings->value(SETTINGS_GENERAL_FIRSTSTART, SETTINGS_GENERAL_FIRSTSTART_DEFAULT).toBool())
     {
-        bool SRActive = isScreenReaderActive();
-        if (SRActive)
-        {
-            QMessageBox answer;
-            answer.setText(tr("%1 has detected usage of a screenreader on your computer. Do you wish to enable accessibility options offered by %1 with recommended settings?").arg(APPNAME_SHORT));
-            QAbstractButton* YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
-            QAbstractButton* NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
-            Q_UNUSED(NoButton);
-            answer.setIcon(QMessageBox::Question);
-            answer.setWindowTitle(APPNAME_SHORT);
-            answer.exec();
+        QMessageBox answer;
+        answer.setText(tr("Would you like to enable accessibility options with recommended settings for screen reader usage?"));
+        QAbstractButton* YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton* NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(APPNAME_SHORT);
+        answer.exec();
 
-            if (answer.clickedButton() == YesButton)
-            {
-#if defined(ENABLE_TOLK)
-                ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_TOLK);
+        if (answer.clickedButton() == YesButton)
+        {
+#if defined(ENABLE_PRISM)
+            ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_PRISM);
 #elif defined(Q_OS_LINUX)
-                if (QFile::exists(NOTIFY_PATH))
-                    ttSettings->setValue(SETTINGS_TTS_TOAST, true);
-                else
-                    ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_QT);
+            if (QFile::exists(NOTIFY_PATH))
+                ttSettings->setValue(SETTINGS_TTS_TOAST, true);
+            else
+                ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_QT);
 #endif
-                ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, false);
-                ttSettings->setValue(SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW, true);
-            }
+            ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, false);
+            ttSettings->setValue(SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW, true);
         }
     }
-#endif
 }
 
 bool MainWindow::parseArgs(const QStringList& args)
@@ -4543,9 +4541,17 @@ bool MainWindow::slotClientExit(bool /*checked =false */)
     }
     if (ok)
     {
-#if defined(ENABLE_TOLK)
-        if(Tolk_IsLoaded())
-            Tolk_Unload();
+#if defined(ENABLE_PRISM)
+        if (prismBackend)
+        {
+            prism_backend_free(prismBackend);
+            prismBackend = nullptr;
+        }
+        if (prismContext)
+        {
+            prism_shutdown(prismContext);
+            prismContext = nullptr;
+        }
 #endif
         if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
             disconnectFromServer();
@@ -7960,13 +7966,33 @@ void MainWindow::startTTS()
     break;
 #endif
 
-#if defined(ENABLE_TOLK)
-    case TTSENGINE_TOLK :
+#if defined(ENABLE_PRISM)
+    case TTSENGINE_PRISM :
     {
-        if (!Tolk_IsLoaded())
+        if (prismBackend)
         {
-            Tolk_Load();
-            Tolk_TrySAPI(true);
+            prism_backend_free(prismBackend);
+            prismBackend = nullptr;
+        }
+        if (prismContext)
+        {
+            prism_shutdown(prismContext);
+            prismContext = nullptr;
+        }
+
+        PrismConfig cfg = prism_config_init();
+        prismContext = prism_init(&cfg);
+        if (prismContext)
+        {
+            PrismBackendId backendId = static_cast<PrismBackendId>(
+                ttSettings->value(SETTINGS_TTS_PRISM_BACKEND, SETTINGS_TTS_PRISM_BACKEND_DEFAULT).toULongLong());
+            if (backendId != PRISM_BACKEND_INVALID)
+                prismBackend = prism_registry_create(prismContext, backendId);
+            else
+                prismBackend = prism_registry_create_best(prismContext);
+
+            if (prismBackend)
+                prism_backend_initialize(prismBackend);
         }
     }
     break;

@@ -1,0 +1,32 @@
+From dd2f324ae9984426345b90f48c0244dd76d5cec3 Mon Sep 17 00:00:00 2001
+From: Sihu Hwang <129564966+hwangsihu@users.noreply.github.com>
+Date: Fri, 17 Apr 2026 19:18:59 +0900
+Subject: [PATCH 1/2] Add PRISM_USE_STATIC_CRT option to select /MT(d) runtime
+
+---
+ CMakeLists.txt | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 62fae57..3dd8a39 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -39,10 +39,15 @@ if(PRISM_ENABLE_VCPKG_SPECIFIC_OPTIONS)
+     OFF)
+ endif()
+ option(PRISM_ENABLE_GDEXTENSION "Enable building of the Godot GDExtension" ON)
++option(PRISM_USE_STATIC_CRT "Use /MT(d) static CRT on MSVC" OFF)
+ if(MSVC AND PRISM_ENABLE_GDEXTENSION)
+   set(CMAKE_MSVC_RUNTIME_LIBRARY
+       "MultiThreadedDLL"
+       CACHE STRING "Match godot-cpp non-debug CRT")
++elseif(MSVC AND PRISM_USE_STATIC_CRT)
++  set(CMAKE_MSVC_RUNTIME_LIBRARY
++      "MultiThreaded$<$<CONFIG:Debug>:Debug>"
++      CACHE STRING "Use static CRT")
+ endif()
+ if(APPLE)
+   enable_language(Swift)
+-- 
+2.50.1 (Apple Git-155)
+

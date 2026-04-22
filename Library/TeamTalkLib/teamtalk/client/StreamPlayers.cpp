@@ -530,6 +530,11 @@ OpusPlayer::~OpusPlayer()
     m_decoder.Close();
 }
 
+void OpusPlayer::ApplyAIAudioEffect(const AIAudioEffect& effect)
+{
+    m_decoder.SetComplexity(effect.enable_osce ? 10 : 0);
+}
+
 void OpusPlayer::Reset()
 {
     AudioPlayer::Reset();

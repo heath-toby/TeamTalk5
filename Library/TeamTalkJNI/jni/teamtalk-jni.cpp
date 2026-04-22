@@ -339,6 +339,29 @@ extern "C" {
         return JFALSE;
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setAIAudioEffect(JNIEnv* env,
+                                                                              jobject thiz,
+                                                                              jobject lpAIAudioEffect)
+    {
+        AIAudioEffect effect = {};
+        setAIAudioEffect(env, effect, lpAIAudioEffect, J2N);
+
+        return TT_SetAIAudioEffect(GetTTInstance(env, thiz), &effect);
+    }
+
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getAIAudioEffect(JNIEnv* env,
+                                                                              jobject thiz,
+                                                                              jobject lpAIAudioEffect)
+    {
+        AIAudioEffect effect = {};
+        if (TT_GetAIAudioEffect(GetTTInstance(env, thiz), &effect) != 0)
+        {
+            setAIAudioEffect(env, effect, lpAIAudioEffect, N2J);
+            return JTRUE;
+        }
+        return JFALSE;
+    }
+
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_getSoundInputLevel(JNIEnv* env,
                                                                             jobject thiz)
     {

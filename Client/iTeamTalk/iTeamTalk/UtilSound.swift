@@ -298,6 +298,16 @@ func setupSoundDevices() {
     catch {
         print("Failed to set mode")
     }
+
+    applyAIAudioEffect()
+}
+
+func applyAIAudioEffect() {
+    let defaults = UserDefaults.standard
+    var aiEffect = AIAudioEffect()
+    aiEffect.bEnableDRED = (defaults.object(forKey: PREF_AI_DRED) != nil && defaults.bool(forKey: PREF_AI_DRED)) ? TRUE : FALSE
+    aiEffect.bEnableOSCE = (defaults.object(forKey: PREF_AI_OSCE) != nil && defaults.bool(forKey: PREF_AI_OSCE)) ? TRUE : FALSE
+    TT_SetAIAudioEffect(ttInst, &aiEffect)
 }
 
 func playSound(_ s: Sounds) {

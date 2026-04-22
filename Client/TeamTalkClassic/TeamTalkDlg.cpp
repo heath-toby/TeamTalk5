@@ -3487,6 +3487,8 @@ void CTeamTalkDlg::OnFilePreferences()
     soundpage.m_bEchoCancel = m_xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE);
     soundpage.m_bAGC = m_xmlSettings.GetAGC(DEFAULT_AGC_ENABLE);
     soundpage.m_bDenoise = m_xmlSettings.GetDenoise(DEFAULT_DENOISE_ENABLE);
+    soundpage.m_bAIDRED = m_xmlSettings.GetAIAudioDRED(DEFAULT_AI_DRED_ENABLE);
+    soundpage.m_bAIOSCE = m_xmlSettings.GetAIAudioOSCE(DEFAULT_AI_OSCE_ENABLE);
     soundpage.m_nMediaVsVoice = m_xmlSettings.GetMediaStreamVsVoice(DEFAULT_MEDIA_VS_VOICE);
 
     ///////////////////////
@@ -3741,6 +3743,8 @@ void CTeamTalkDlg::OnFilePreferences()
         bRestartSound |= m_xmlSettings.GetAGC(DEFAULT_AGC_ENABLE) != bool(soundpage.m_bAGC);
         bRestartSound |= m_xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE) != bool(soundpage.m_bEchoCancel);
         bRestartSound |= m_xmlSettings.GetDenoise(DEFAULT_DENOISE_ENABLE) != bool(soundpage.m_bDenoise);
+        bRestartSound |= m_xmlSettings.GetAIAudioDRED(DEFAULT_AI_DRED_ENABLE) != bool(soundpage.m_bAIDRED);
+        bRestartSound |= m_xmlSettings.GetAIAudioOSCE(DEFAULT_AI_OSCE_ENABLE) != bool(soundpage.m_bAIOSCE);
 
         m_xmlSettings.SetSoundOutputDevice(soundpage.m_nOutputDevice);
         m_xmlSettings.SetSoundOutputDevice(STR_UTF8(soundpage.m_szOutputDeviceID));
@@ -3750,6 +3754,8 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetEchoCancel(soundpage.m_bEchoCancel);
         m_xmlSettings.SetAGC(soundpage.m_bAGC);
         m_xmlSettings.SetDenoise(soundpage.m_bDenoise);
+        m_xmlSettings.SetAIAudioDRED(soundpage.m_bAIDRED);
+        m_xmlSettings.SetAIAudioOSCE(soundpage.m_bAIOSCE);
         if(m_xmlSettings.GetMediaStreamVsVoice(DEFAULT_MEDIA_VS_VOICE) != soundpage.m_nMediaVsVoice)
         {
             m_xmlSettings.SetMediaStreamVsVoice(soundpage.m_nMediaVsVoice);

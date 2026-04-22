@@ -92,6 +92,10 @@ public:
     CButton m_wndPositionBtn;
     CButton m_btnEchoCancel;
     BOOL m_bEchoCancel;
+    BOOL m_bAIDRED;
+    BOOL m_bAIOSCE;
+    CButton m_btnAIDRED;
+    CButton m_btnAIOSCE;
     afx_msg void OnBnClickedCheckEchochannel();
     afx_msg void OnBnClickedCheckDenoise();
     CStatic m_wndInputSampleRates;

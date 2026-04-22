@@ -607,6 +607,11 @@ BOOL InitSoundSystem(teamtalk::ClientXML& xmlSettings, SoundDevice& indev, Sound
         effects.bEnableEchoCancellation = bEchoCancel;
     TT_SetSoundDeviceEffects(ttInst, &effects);
 
+    AIAudioEffect aiEffect = {};
+    aiEffect.bEnableDRED = xmlSettings.GetAIAudioDRED(DEFAULT_AI_DRED_ENABLE);
+    aiEffect.bEnableOSCE = xmlSettings.GetAIAudioOSCE(DEFAULT_AI_OSCE_ENABLE);
+    TT_SetAIAudioEffect(ttInst, &aiEffect);
+
     BOOL bSuccess = FALSE;
 
     if (bDuplex || (effects.bEnableEchoCancellation && (indev.nSoundSystem == SOUNDSYSTEM_WASAPI)))

@@ -3619,6 +3619,70 @@ TEST_CASE("OPUSFileEncDec")
     }
 }
 
+TEST_CASE("OPUSFileEncDecAI")
+{
+    const int SAMPLERATE = 48000;
+    for (auto FRAMESIZE_SEC : {.02, .04})
+    {
+        MediaFileInfo mfi = {};
+        mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+        mfi.audioFmt.nChannels = 2;
+        mfi.audioFmt.nSampleRate = SAMPLERATE;
+        mfi.uDurationMSec = 10 * 1000;
+        const int FRAMESIZE = int(mfi.audioFmt.nSampleRate * FRAMESIZE_SEC);
+        ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("originalfile_ai_%d_%dmsec.wav"),
+                         mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+
+        REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+
+        WavePCMFile wavfile;
+        REQUIRE(wavfile.OpenFile(mfi.szFileName, true));
+
+        OpusEncFile opusenc;
+        ACE_TCHAR opusencfilename[TT_STRLEN];
+        ACE_OS::snprintf(opusencfilename, TT_STRLEN, ACE_TEXT("opusencfile_ai_%d_%dmsec.ogg"),
+                         mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+        REQUIRE(opusenc.Open(opusencfilename, mfi.audioFmt.nChannels, mfi.audioFmt.nSampleRate, FRAMESIZE, OPUS_APPLICATION_AUDIO));
+        opusenc.GetEncoder().SetDREDDuration(100);
+
+        std::vector<short> buf(mfi.audioFmt.nChannels * FRAMESIZE);
+        int samples = 0;
+        while ((samples = wavfile.ReadSamples(buf.data(), FRAMESIZE)) > 0)
+        {
+            REQUIRE(opusenc.Encode(buf.data(), FRAMESIZE, samples != FRAMESIZE) >= 0);
+        }
+        opusenc.Close();
+        wavfile.Close();
+
+        OpusFile opusread;
+        REQUIRE(opusread.OpenFile(opusencfilename));
+
+        OpusDecode opusdec;
+        REQUIRE(opusdec.Open(opusread.GetSampleRate(), opusread.GetChannels()));
+        opusdec.SetComplexity(10);
+
+        ACE_TCHAR opusdecfilename[TT_STRLEN];
+        ACE_OS::snprintf(opusdecfilename, TT_STRLEN, ACE_TEXT("opusdecfile_ai_%d_%dmsec.wav"),
+                         mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+        REQUIRE(wavfile.NewFile(opusdecfilename, opusread.GetSampleRate(), opusread.GetChannels()));
+
+        ogg_int64_t samplesduration = 0;
+        while (true)
+        {
+            int bytes = 0;
+            const auto *opusbuf = opusread.ReadEncoded(bytes, &samplesduration);
+            if (opusbuf == nullptr)
+                break;
+
+            REQUIRE(opusdec.Decode(reinterpret_cast<const char*>(opusbuf), bytes, buf.data(), FRAMESIZE) == FRAMESIZE);
+            wavfile.AppendSamples(buf.data(), FRAMESIZE);
+        }
+
+        auto durationmsec = PCM16_SAMPLES_DURATION(samplesduration, mfi.audioFmt.nSampleRate);
+        REQUIRE(std::abs(durationmsec - (int)mfi.uDurationMSec) <= FRAMESIZE_SEC * 1000);
+    }
+}
+
 TEST_CASE("OPUSFileSeek")
 {
     const auto SAMPLERATE = 12000;

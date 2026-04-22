@@ -224,6 +224,16 @@ int AudioThread::close(u_long /*flags*/)
     return 0;
 }
 
+void AudioThread::ApplyAIAudioEffect(const teamtalk::AIAudioEffect& effect)
+{
+#if defined(ENABLE_OPUS)
+    if (m_opus)
+        m_opus->SetDREDDuration(effect.enable_dred ? 100 : 0);
+#else
+    (void)effect;
+#endif
+}
+
 bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preprocess)
 {
     //set AGC

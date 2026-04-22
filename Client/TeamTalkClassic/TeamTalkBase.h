@@ -95,6 +95,8 @@ AudioPreprocessor InitDefaultAudioPreprocessor(AudioPreprocessorType preprocesso
 #define DEFAULT_ECHO_ENABLE             FALSE
 #define DEFAULT_AGC_ENABLE              FALSE
 #define DEFAULT_DENOISE_ENABLE          FALSE
+#define DEFAULT_AI_DRED_ENABLE          FALSE
+#define DEFAULT_AI_OSCE_ENABLE          FALSE
 
 #define DEFAULT_SPEEXDSP_AGC_ENABLE             DEFAULT_AGC_ENABLE
 #define DEFAULT_SPEEXDSP_AGC_GAINLEVEL          8000

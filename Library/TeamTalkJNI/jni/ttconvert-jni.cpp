@@ -873,6 +873,26 @@ void setSoundDeviceEffects(JNIEnv* env, SoundDeviceEffects& effects, jobject lpS
     }
 }
 
+void setAIAudioEffect(JNIEnv* env, AIAudioEffect& effect, jobject lpAIAudioEffect, JConvert conv) {
+    jclass cls = env->GetObjectClass(lpAIAudioEffect);
+    jfieldID fid_dred = env->GetFieldID(cls, "bEnableDRED", "Z");
+    jfieldID fid_osce = env->GetFieldID(cls, "bEnableOSCE", "Z");
+
+    assert(fid_dred);
+    assert(fid_osce);
+
+    if (conv == N2J)
+    {
+        env->SetBooleanField(lpAIAudioEffect, fid_dred, effect.bEnableDRED);
+        env->SetBooleanField(lpAIAudioEffect, fid_osce, effect.bEnableOSCE);
+    }
+    else
+    {
+        effect.bEnableDRED = env->GetBooleanField(lpAIAudioEffect, fid_dred);
+        effect.bEnableOSCE = env->GetBooleanField(lpAIAudioEffect, fid_osce);
+    }
+}
+
 
 void setSpeexDSP(JNIEnv* env, SpeexDSP& spxdsp, jobject lpSpeexDSP, JConvert conv)
 {

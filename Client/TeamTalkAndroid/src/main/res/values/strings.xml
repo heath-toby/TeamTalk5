@@ -163,6 +163,10 @@
     <string name="pref_summary_bluetooth_headset_checkbox">When bluetooth headset is connected use its microphone</string>
     <string name="pref_title_voice_processing_checkbox">Enable voice preprocessing</string>
     <string name="pref_summary_voice_processing_checkbox">Use echo cancellation and automatic gain control</string>
+    <string name="pref_title_ai_dred_checkbox">Enable AI packet loss recovery (DRED)</string>
+    <string name="pref_summary_ai_dred_checkbox">Make outgoing voice more resilient on unstable networks</string>
+    <string name="pref_title_ai_osce_checkbox">Enable AI speech enhancement (OSCE)</string>
+    <string name="pref_summary_ai_osce_checkbox">Improve clarity of received voice</string>
 
     <string name="text_tts_loggedin">has logged in</string>
     <string name="text_tts_loggedout">has logged out</string>

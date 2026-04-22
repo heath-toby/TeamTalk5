@@ -1347,6 +1347,20 @@
            </widget>
           </item>
           <item>
+           <widget class="QCheckBox" name="aiDredBox">
+            <property name="text">
+             <string>Enable AI packet loss recovery (DRED)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="aiOsceBox">
+            <property name="text">
+             <string>Enable AI speech enhancement (OSCE)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <layout class="QHBoxLayout" name="horizontalLayout_10">
             <item>
              <widget class="QLabel" name="label_34">

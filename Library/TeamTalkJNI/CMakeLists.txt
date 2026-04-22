@@ -115,6 +115,7 @@ if (Java_FOUND)
 
   set (JAVA_SOURCES
     src/dk/bearware/AbusePrevention.java
+    src/dk/bearware/AIAudioEffect.java
     src/dk/bearware/AudioBlock.java
     src/dk/bearware/AudioCodec.java
     src/dk/bearware/AudioConfig.java

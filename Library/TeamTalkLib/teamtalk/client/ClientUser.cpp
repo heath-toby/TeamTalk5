@@ -1430,11 +1430,16 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
 #endif
 #if defined(ENABLE_OPUS)
     case teamtalk::CODEC_OPUS :
-        ACE_NEW_RETURN(audio_player,
+    {
+        OpusPlayer* opus_player = nullptr;
+        ACE_NEW_RETURN(opus_player,
                        OpusPlayer(GetUserID(), stream_type, m_soundsystem,
                                   audiofunc, codec, resampler),
                        audio_player_t());
+        opus_player->ApplyAIAudioEffect(m_clientnode->GetAIAudioEffect());
+        audio_player = opus_player;
         break;
+    }
 #endif
     default:
         MYTRACE(ACE_TEXT("Cannot launch player for user #%d. Codec %d is unknown\n"),

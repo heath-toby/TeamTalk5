@@ -4,11 +4,17 @@
 
 Version 5.22.1, unreleased
 Default Qt Client
--
+- Option to enable AI packet loss recovery (DRED), making outgoing voice more resilient on unstable networks
+- Option to enable AI speech enhancement (OSCE) to improve clarity of received voice
 Android Client
--
+- Option to enable AI packet loss recovery (DRED), making outgoing voice more resilient on unstable networks
+- Option to enable AI speech enhancement (OSCE) to improve clarity of received voice
 iOS Client
--
+- Option to enable AI packet loss recovery (DRED), making outgoing voice more resilient on unstable networks
+- Option to enable AI speech enhancement (OSCE) to improve clarity of received voice
+Accessible Windows Client
+- Option to enable AI packet loss recovery (DRED), making outgoing voice more resilient on unstable networks
+- Option to enable AI speech enhancement (OSCE) to improve clarity of received voice
 Server
 -
 

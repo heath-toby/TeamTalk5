@@ -148,6 +148,10 @@ namespace c_tt
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_GetSoundDeviceEffects(IntPtr lpTTInstance, ref BearWare.SoundDeviceEffects lpSoundDeviceEffect);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_SetAIAudioEffect(IntPtr lpTTInstance, ref BearWare.AIAudioEffect lpAIAudioEffect);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_GetAIAudioEffect(IntPtr lpTTInstance, ref BearWare.AIAudioEffect lpAIAudioEffect);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TT_GetSoundInputLevel(IntPtr lpTTInstance);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_SetSoundInputGainLevel(IntPtr lpTTInstance,

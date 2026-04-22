@@ -74,6 +74,8 @@ public:
 
     bool UpdatePreprocessor(const teamtalk::AudioPreprocessor& preprocess);
 
+    void ApplyAIAudioEffect(const teamtalk::AIAudioEffect& effect);
+
     int m_voiceactlevel = VU_METER_MIN;
     ACE_Time_Value m_voiceact_delay = ACE_Time_Value(1, 500000);
 

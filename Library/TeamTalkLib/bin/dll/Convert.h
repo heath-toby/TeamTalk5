@@ -64,6 +64,8 @@ void Convert(const AudioConfig& audcfg, teamtalk::AudioConfig& result);
 
 void Convert(const SoundDeviceEffects& effects, teamtalk::SoundDeviceEffects& result);
 void Convert(const teamtalk::SoundDeviceEffects& effects, SoundDeviceEffects& result);
+void Convert(const AIAudioEffect& effect, teamtalk::AIAudioEffect& result);
+void Convert(const teamtalk::AIAudioEffect& effect, AIAudioEffect& result);
 
 void Convert(const AudioPreprocessor& audpreprocess, teamtalk::AudioPreprocessor& result);
 void Convert(const teamtalk::AudioPreprocessor& audpreprocess, AudioPreprocessor& result);

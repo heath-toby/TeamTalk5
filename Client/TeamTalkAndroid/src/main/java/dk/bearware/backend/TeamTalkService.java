@@ -75,6 +75,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import dk.bearware.AIAudioEffect;
 import dk.bearware.AudioPreprocessor;
 import dk.bearware.AudioPreprocessorType;
 import dk.bearware.Channel;
@@ -869,6 +870,12 @@ public class TeamTalkService extends Service
             int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
             ttclient.setSoundInputGainLevel(gain);
         }
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        AIAudioEffect aiEffect = new AIAudioEffect();
+        aiEffect.bEnableDRED = prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_AI_DRED, false);
+        aiEffect.bEnableOSCE = prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_AI_OSCE, false);
+        ttclient.setAIAudioEffect(aiEffect);
     }
 
     @Override

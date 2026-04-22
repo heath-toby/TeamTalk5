@@ -258,6 +258,10 @@
 #define SETTINGS_SOUND_AGC_DEFAULT                  DEFAULT_AGC_ENABLE
 #define SETTINGS_SOUND_DENOISING                    "soundsystem/denoising"
 #define SETTINGS_SOUND_DENOISING_DEFAULT            DEFAULT_DENOISE_ENABLE
+#define SETTINGS_SOUND_AI_DRED                      "soundsystem/ai-dred"
+#define SETTINGS_SOUND_AI_DRED_DEFAULT              false
+#define SETTINGS_SOUND_AI_OSCE                      "soundsystem/ai-osce"
+#define SETTINGS_SOUND_AI_OSCE_DEFAULT              false
 #define SETTINGS_SOUND_SOUNDOUT_MUTE_LEFT           "soundsystem/sndoutput-mute-left"
 #define SETTINGS_SOUND_SOUNDOUT_MUTE_LEFT_DEFAULT   false
 #define SETTINGS_SOUND_SOUNDOUT_MUTE_RIGHT          "soundsystem/sndoutput-mute-right"

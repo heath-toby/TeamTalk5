@@ -789,6 +789,27 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundDeviceEffects(IN TTInstance* lpTTInstance,
     return TRUE;
 }
 
+TEAMTALKDLL_API TTBOOL TT_SetAIAudioEffect(IN TTInstance* lpTTInstance,
+                                           IN const AIAudioEffect* lpAIAudioEffect)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    teamtalk::AIAudioEffect effect;
+    Convert(*lpAIAudioEffect, effect);
+    return static_cast<TTBOOL>(clientnode->SetAIAudioEffect(effect));
+}
+
+TEAMTALKDLL_API TTBOOL TT_GetAIAudioEffect(IN TTInstance* lpTTInstance,
+                                           OUT AIAudioEffect* lpAIAudioEffect)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    Convert(clientnode->GetAIAudioEffect(), *lpAIAudioEffect);
+    return TRUE;
+}
+
 
 TEAMTALKDLL_API INT32 TT_GetSoundInputLevel(IN TTInstance* lpTTInstance)
 {

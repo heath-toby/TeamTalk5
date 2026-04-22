@@ -49,6 +49,8 @@ let PREF_VOICEACTIVATION = "voiceactivationlevel_preference"
 let PREF_MEDIAFILE_VOLUME = "mediafile_volume_preference"
 let PREF_HEADSET_TXTOGGLE = "headset_tx_preference"
 let PREF_VOICEPROCESSINGIO = "voiceprocessing_preference"
+let PREF_AI_DRED = "ai_dred_preference"
+let PREF_AI_OSCE = "ai_osce_preference"
 let PREF_SNDINPUT_PORT = "sndinput_port_preference" // postfix of key is AVAudioSessionPortDescription.uid. Value is dataSourceID
 
 let PREF_SNDEVENT_SERVERLOST = "snd_srvlost_preference"

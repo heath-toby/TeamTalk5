@@ -2861,6 +2861,13 @@ SoundDeviceEffects ClientNode::GetSoundDeviceEffects()
     return m_soundprop.effects;
 }
 
+bool ClientNode::SetAIAudioEffect(const AIAudioEffect& effect)
+{
+    m_aiAudioEffect = effect;
+    m_voice_thread.ApplyAIAudioEffect(effect);
+    return true;
+}
+
 bool ClientNode::SetSoundOutputVolume(int volume)
 {
     rguard_t const g_snd(LockSndprop());
@@ -4181,6 +4188,7 @@ void ClientNode::JoinChannel(clientchannel_t& chan)
     auto cbenc = [this](auto && PH1, auto && PH2, auto && PH3, auto && PH4, auto && PH5) { EncodedAudioVoiceFrame(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2), std::forward<decltype(PH3)>(PH3), std::forward<decltype(PH4)>(PH4), std::forward<decltype(PH5)>(PH5)); };
     if(m_voice_thread.StartEncoder(cbenc, codec, true))
     {
+        m_voice_thread.ApplyAIAudioEffect(m_aiAudioEffect);
         if (!SetSoundPreprocess(m_soundprop.preprocessor)) //set AGC, denoise, etc.
         {
             m_listener->OnInternalError(TT_INTERR_AUDIOPREPROCESSOR_INIT_FAILED,

@@ -276,6 +276,10 @@ void PreferencesDlg::initDevices()
     ui.agcBox->setChecked(ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool());
     ui.denoisingBox->setChecked(ttSettings->value(SETTINGS_SOUND_DENOISING,
                                                   SETTINGS_SOUND_DENOISING_DEFAULT).toBool());
+    ui.aiDredBox->setChecked(ttSettings->value(SETTINGS_SOUND_AI_DRED,
+                                               SETTINGS_SOUND_AI_DRED_DEFAULT).toBool());
+    ui.aiOsceBox->setChecked(ttSettings->value(SETTINGS_SOUND_AI_OSCE,
+                                               SETTINGS_SOUND_AI_OSCE_DEFAULT).toBool());
     slotUpdateSoundCheckBoxes();
 }
 
@@ -934,6 +938,13 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValueOrClear(SETTINGS_SOUND_ECHOCANCEL, ui.echocancelBox->isChecked(), SETTINGS_SOUND_ECHOCANCEL_DEFAULT);
         ttSettings->setValueOrClear(SETTINGS_SOUND_AGC, ui.agcBox->isChecked(), SETTINGS_SOUND_AGC_DEFAULT);
         ttSettings->setValueOrClear(SETTINGS_SOUND_DENOISING, ui.denoisingBox->isChecked(), SETTINGS_SOUND_DENOISING_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_SOUND_AI_DRED, ui.aiDredBox->isChecked(), SETTINGS_SOUND_AI_DRED_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_SOUND_AI_OSCE, ui.aiOsceBox->isChecked(), SETTINGS_SOUND_AI_OSCE_DEFAULT);
+
+        AIAudioEffect aiEffect = {};
+        aiEffect.bEnableDRED = ui.aiDredBox->isChecked();
+        aiEffect.bEnableOSCE = ui.aiOsceBox->isChecked();
+        TT_SetAIAudioEffect(ttInst, &aiEffect);
 
         ttSettings->setValueOrClear(SETTINGS_SOUND_MEDIASTREAM_VOLUME, ui.mediavsvoiceSlider->value(), SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT);
 

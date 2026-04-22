@@ -4689,7 +4689,20 @@ extern "C" {
      * @see TT_SoundDeviceEffects() */
     TEAMTALKDLL_API TTBOOL TT_GetSoundDeviceEffects(IN TTInstance* lpTTInstance,
                                                     OUT SoundDeviceEffects* lpSoundDeviceEffect);
-    
+
+    typedef struct AIAudioEffect
+    {
+        TTBOOL bEnableDRED;
+        TTBOOL bEnableOSCE;
+    } AIAudioEffect;
+
+    TEAMTALKDLL_API TTBOOL TT_SetAIAudioEffect(IN TTInstance* lpTTInstance,
+                                               IN const AIAudioEffect* lpAIAudioEffect);
+
+    TEAMTALKDLL_API TTBOOL TT_GetAIAudioEffect(IN TTInstance* lpTTInstance,
+                                               OUT AIAudioEffect* lpAIAudioEffect);
+
+
     /**
      * @brief Get the volume level of the current recorded audio.
      *

@@ -311,6 +311,11 @@ QStringList initSoundDevices(const SoundDevice& indev, const SoundDevice& outdev
 
     TT_SetSoundDeviceEffects(ttInst, &effects);
 
+    AIAudioEffect aiEffect = {};
+    aiEffect.bEnableDRED = ttSettings->value(SETTINGS_SOUND_AI_DRED, SETTINGS_SOUND_AI_DRED_DEFAULT).toBool();
+    aiEffect.bEnableOSCE = ttSettings->value(SETTINGS_SOUND_AI_OSCE, SETTINGS_SOUND_AI_OSCE_DEFAULT).toBool();
+    TT_SetAIAudioEffect(ttInst, &aiEffect);
+
     // disable WebRTC echo cancel if duplex mode is disabled
     if (preprocess.nPreprocessor == WEBRTC_AUDIOPREPROCESSOR)
     {

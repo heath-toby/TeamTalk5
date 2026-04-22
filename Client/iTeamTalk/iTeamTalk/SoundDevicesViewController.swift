@@ -57,6 +57,22 @@ class SoundDevicesViewController : UITableViewController {
         voiceprepswitch.addTarget(self, action: #selector(SoundDevicesViewController.voicepreprocessingChanged(_:)), for: .valueChanged)
         sound_items.append(voice_prepcell)
 
+        let dredcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        let dredswitch = newTableCellSwitch(dredcell, label: NSLocalizedString("AI Packet Loss Recovery (DRED)", comment: "preferences"),
+            initial: settings.object(forKey: PREF_AI_DRED) != nil && settings.bool(forKey: PREF_AI_DRED))
+        dredcell.detailTextLabel!.text = NSLocalizedString("Make outgoing voice more resilient on unstable networks",
+                                                           comment: "Sound Devices")
+        dredswitch.addTarget(self, action: #selector(SoundDevicesViewController.aiDredChanged(_:)), for: .valueChanged)
+        sound_items.append(dredcell)
+
+        let oscecell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        let osceswitch = newTableCellSwitch(oscecell, label: NSLocalizedString("AI Speech Enhancement (OSCE)", comment: "preferences"),
+            initial: settings.object(forKey: PREF_AI_OSCE) != nil && settings.bool(forKey: PREF_AI_OSCE))
+        oscecell.detailTextLabel!.text = NSLocalizedString("Improve clarity of received voice",
+                                                           comment: "Sound Devices")
+        osceswitch.addTarget(self, action: #selector(SoundDevicesViewController.aiOsceChanged(_:)), for: .valueChanged)
+        sound_items.append(oscecell)
+
         if #available(iOS 10.0, *) {
             let a2dpcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
             let a2dpswitch = newTableCellSwitch(a2dpcell, label: NSLocalizedString("Bluetooth A2DP Playback", comment: "Sound Devices"),
@@ -219,11 +235,23 @@ class SoundDevicesViewController : UITableViewController {
     }
 
     @objc func voicepreprocessingChanged(_ sender: UISwitch) {
-        
+
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_VOICEPROCESSINGIO)
-        
+
         setupSoundDevices()
+    }
+
+    @objc func aiDredChanged(_ sender: UISwitch) {
+        let defaults = UserDefaults.standard
+        defaults.set(sender.isOn, forKey: PREF_AI_DRED)
+        applyAIAudioEffect()
+    }
+
+    @objc func aiOsceChanged(_ sender: UISwitch) {
+        let defaults = UserDefaults.standard
+        defaults.set(sender.isOn, forKey: PREF_AI_OSCE)
+        applyAIAudioEffect()
     }
 
     @objc func bluetoothA2DPChanged(_ sender: UISwitch) {

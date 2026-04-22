@@ -141,6 +141,12 @@ class SoundDeviceEffects(Structure):
     def __init__(self):
         assert(DBG_SIZEOF(TTType.SoundDeviceEffects) == ctypes.sizeof(SoundDeviceEffects))
 
+class AIAudioEffect(Structure):
+    _fields_ = [
+    ("bEnableDRED", BOOL),
+    ("bEnableOSCE", BOOL)
+    ]
+
 class SoundLevel(INT32):
     SOUND_VU_MAX = 100
     SOUND_VU_MIN = 0
@@ -1120,6 +1126,8 @@ _CloseSoundOutputDevice = function_factory(dll.TT_CloseSoundOutputDevice, [BOOL,
 _CloseSoundDuplexDevices = function_factory(dll.TT_CloseSoundDuplexDevices, [BOOL, [_TTInstance]])
 _SetSoundDeviceEffects = function_factory(dll.TT_SetSoundDeviceEffects, [BOOL, [_TTInstance, POINTER(SoundDeviceEffects)]])
 _GetSoundDeviceEffects = function_factory(dll.TT_GetSoundDeviceEffects, [BOOL, [_TTInstance, POINTER(SoundDeviceEffects)]])
+_SetAIAudioEffect = function_factory(dll.TT_SetAIAudioEffect, [BOOL, [_TTInstance, POINTER(AIAudioEffect)]])
+_GetAIAudioEffect = function_factory(dll.TT_GetAIAudioEffect, [BOOL, [_TTInstance, POINTER(AIAudioEffect)]])
 _GetSoundInputLevel = function_factory(dll.TT_GetSoundInputLevel, [INT32, [_TTInstance]])
 _SetSoundInputGainLevel = function_factory(dll.TT_SetSoundInputGainLevel, [BOOL, [_TTInstance, INT32]])
 _GetSoundInputGainLevel = function_factory(dll.TT_GetSoundInputGainLevel, [INT32, [_TTInstance]])

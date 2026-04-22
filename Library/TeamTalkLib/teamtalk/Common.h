@@ -484,6 +484,12 @@ namespace teamtalk {
         bool enable_denoise = false;
     };
 
+    struct AIAudioEffect
+    {
+        bool enable_dred = false;
+        bool enable_osce = false;
+    };
+
     struct WebMVP8Codec
     {
         int rc_target_bitrate; /* 0 = 256 kbit/sec */

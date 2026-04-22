@@ -339,6 +339,12 @@ namespace BearWare
         public bool bEnableEchoCancellation;
     }
 
+    public struct AIAudioEffect
+    {
+        public bool bEnableDRED;
+        public bool bEnableOSCE;
+    }
+
     /**
      * @brief IDs for sound devices. */
     public struct SoundDeviceConstants
@@ -5089,6 +5095,14 @@ namespace BearWare
         public bool GetSoundDeviceEffects(ref SoundDeviceEffects lpSoundDeviceEffect)
         {
             return TTDLL.TT_GetSoundDeviceEffects(m_ttInst, ref lpSoundDeviceEffect);
+        }
+        public bool SetAIAudioEffect(AIAudioEffect lpAIAudioEffect)
+        {
+            return TTDLL.TT_SetAIAudioEffect(m_ttInst, ref lpAIAudioEffect);
+        }
+        public bool GetAIAudioEffect(ref AIAudioEffect lpAIAudioEffect)
+        {
+            return TTDLL.TT_GetAIAudioEffect(m_ttInst, ref lpAIAudioEffect);
         }
         /**
          * @brief Get the volume level of the current recorded audio.

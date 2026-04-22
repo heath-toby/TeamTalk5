@@ -137,6 +137,10 @@ public abstract class TeamTalkBase implements AutoCloseable
 
     public native boolean getSoundDeviceEffects(SoundDeviceEffects lpSoundDeviceEffects);
 
+    public native boolean setAIAudioEffect(AIAudioEffect lpAIAudioEffect);
+
+    public native boolean getAIAudioEffect(AIAudioEffect lpAIAudioEffect);
+
     public native int getSoundInputLevel();
 
     public native boolean setSoundInputGainLevel(int nLevel);

@@ -318,6 +318,12 @@ namespace teamtalk {
 
         bool SetEchoCancel(bool bEnable);
         bool GetEchoCancel(bool bDefValue);
+
+        bool SetAIAudioDRED(bool bEnable);
+        bool GetAIAudioDRED(bool bDefValue);
+
+        bool SetAIAudioOSCE(bool bEnable);
+        bool GetAIAudioOSCE(bool bDefValue);
         /********* </soundsystem> ********/
 
         /********* <events> *************/

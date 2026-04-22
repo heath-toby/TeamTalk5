@@ -190,6 +190,8 @@ namespace teamtalk {
         // Get ID of current channel (0 = not set)
         virtual int GetChannelID() = 0;
 
+        virtual AIAudioEffect GetAIAudioEffect() const = 0;
+
         // Queue packet for transmission
         virtual bool QueuePacket(FieldPacket* packet) = 0;
         // Get logger for writing audio streams to disk (wav, ogg, etc)

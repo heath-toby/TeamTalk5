@@ -166,6 +166,21 @@ bool OpusEncode::SetDTX(bool enable)
     return err == 0;
 }
 
+bool OpusEncode::SetDREDDuration(int duration_10ms)
+{
+    assert(m_encoder);
+    if(m_encoder == nullptr)
+        return false;
+
+#ifdef OPUS_SET_DRED_DURATION_REQUEST
+    int const err = opus_encoder_ctl(m_encoder, OPUS_SET_DRED_DURATION(duration_10ms));
+    return err == OPUS_OK;
+#else
+    (void)duration_10ms;
+    return false;
+#endif
+}
+
 int OpusEncode::Encode(const short* input_buffer, int input_samples,
                         char* output_buffer, int output_bufsize)
 {

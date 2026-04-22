@@ -1107,6 +1107,18 @@ void Convert(const teamtalk::SoundDeviceEffects& effects, SoundDeviceEffects& re
     result.bEnableDenoise = static_cast<TTBOOL>(effects.enable_denoise);
 }
 
+void Convert(const AIAudioEffect& effect, teamtalk::AIAudioEffect& result)
+{
+    result.enable_dred = (effect.bEnableDRED != 0);
+    result.enable_osce = (effect.bEnableOSCE != 0);
+}
+
+void Convert(const teamtalk::AIAudioEffect& effect, AIAudioEffect& result)
+{
+    result.bEnableDRED = static_cast<TTBOOL>(effect.enable_dred);
+    result.bEnableOSCE = static_cast<TTBOOL>(effect.enable_osce);
+}
+
 bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)
 {
     ZERO_STRUCT(result);

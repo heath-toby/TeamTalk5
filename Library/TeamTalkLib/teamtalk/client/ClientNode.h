@@ -219,6 +219,9 @@ namespace teamtalk {
         SoundDeviceEffects GetSoundDeviceEffects();
         const SoundProperties& GetSoundProperties() const { return m_soundprop; }
 
+        bool SetAIAudioEffect(const AIAudioEffect& effect);
+        AIAudioEffect GetAIAudioEffect() const override { return m_aiAudioEffect; }
+
         bool SetSoundOutputVolume(int volume);
         int GetSoundOutputVolume();
 
@@ -527,6 +530,7 @@ namespace teamtalk {
         // active sound groups (shared master volume)
         ACE_Recursive_Thread_Mutex m_sndgrp_lock;
         SoundProperties m_soundprop;
+        AIAudioEffect m_aiAudioEffect;
         //log voice to files
         voicelogger_t m_voicelogger;
         // audio container for getting raw audio from users

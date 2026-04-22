@@ -373,6 +373,7 @@ TEST_CASE("PlaybackJitter")
         int GetUserID() const override { return m_userid; }
         // Get ID of current channel (0 = not set)
         int GetChannelID() override { return m_mychan->GetChannelID(); }
+        teamtalk::AIAudioEffect GetAIAudioEffect() const override { return {}; }
         // Queue packet for transmission
         bool QueuePacket(teamtalk::FieldPacket* packet) override { return true; }
         // Get logger for writing audio streams to disk (wav, ogg, etc)

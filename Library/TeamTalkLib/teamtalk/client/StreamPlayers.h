@@ -189,6 +189,8 @@ namespace teamtalk {
         bool DecodeFrame(const encframe& enc_frame,
                          short* output_buffer, int n_samples) override;
 
+        void ApplyAIAudioEffect(const AIAudioEffect& effect);
+
     protected:
         void Reset() override;
         OpusDecode m_decoder;

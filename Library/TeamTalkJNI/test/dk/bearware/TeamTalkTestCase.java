@@ -2019,6 +2019,56 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
+    public void testOpusAIAudioEffect() {
+
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
+            UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_VIEW_ALL_USERS;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient = newClientInstance();
+
+        TTMessage msg = new TTMessage();
+
+        connect(ttclient);
+        initSound(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+
+        assertTrue("Gen tone", ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 500));
+
+        Channel chan = buildDefaultChannel(ttclient, "Opus - AI", Codec.OPUS_CODEC);
+        assertEquals(Codec.OPUS_CODEC, chan.audiocodec.nCodec);
+
+        assertTrue("join", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+
+        AIAudioEffect effect = new AIAudioEffect();
+        effect.bEnableDRED = true;
+        effect.bEnableOSCE = true;
+        assertTrue("set AI on", ttclient.setAIAudioEffect(effect));
+
+        AIAudioEffect readback = new AIAudioEffect();
+        assertTrue("get AI", ttclient.getAIAudioEffect(readback));
+        assertTrue("DRED on", readback.bEnableDRED);
+        assertTrue("OSCE on", readback.bEnableOSCE);
+
+        assertTrue("subscribe", waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+        assertTrue("enable aud cb", ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
+
+        assertTrue("vox", ttclient.enableVoiceTransmission(true));
+        assertTrue("voice audioblock with AI", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+        assertTrue("vox disable", ttclient.enableVoiceTransmission(false));
+
+        effect.bEnableDRED = false;
+        effect.bEnableOSCE = false;
+        assertTrue("set AI off", ttclient.setAIAudioEffect(effect));
+        assertTrue("get AI", ttclient.getAIAudioEffect(readback));
+        assertFalse("DRED off", readback.bEnableDRED);
+        assertFalse("OSCE off", readback.bEnableOSCE);
+
+        assertTrue("disable aud cb", ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, false));
+    }
+
+    @Test
     public void testListAccounts() {
         TeamTalkBase ttclient = newClientInstance();
         connect(ttclient);

@@ -47,6 +47,8 @@ CSoundSysPage::CSoundSysPage()
 , m_bTesting(FALSE)
 , m_bDenoise(FALSE)
 , m_bEchoCancel(DEFAULT_ECHO_ENABLE)
+, m_bAIDRED(DEFAULT_AI_DRED_ENABLE)
+, m_bAIOSCE(DEFAULT_AI_OSCE_ENABLE)
 , m_SndLoopBack(NULL)
 , m_bAGC(DEFAULT_AGC_ENABLE)
 , m_nMediaVsVoice(DEFAULT_MEDIA_VS_VOICE)
@@ -75,6 +77,10 @@ void CSoundSysPage::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_BUTTON_DEFAULT, m_wndDefaultBtn);
     DDX_Control(pDX, IDC_CHECK_ECHOCANCEL, m_btnEchoCancel);
     DDX_Check(pDX, IDC_CHECK_ECHOCANCEL, m_bEchoCancel);
+    DDX_Control(pDX, IDC_CHECK_AI_DRED, m_btnAIDRED);
+    DDX_Check(pDX, IDC_CHECK_AI_DRED, m_bAIDRED);
+    DDX_Control(pDX, IDC_CHECK_AI_OSCE, m_btnAIOSCE);
+    DDX_Check(pDX, IDC_CHECK_AI_OSCE, m_bAIOSCE);
     DDX_Control(pDX, IDC_STATIC_INPUT_SAMPLERATES, m_wndInputSampleRates);
     DDX_Control(pDX, IDC_STATIC_OUTPUT_SAMPLERATES, m_wndOutputSampleRates);
     DDX_Check(pDX, IDC_CHECK_AGC, m_bAGC);

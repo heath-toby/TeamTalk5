@@ -1737,6 +1737,48 @@ namespace teamtalk {
         return bEnabled;
     }
 
+    bool ClientXML::SetAIAudioDRED(bool bEnable)
+    {
+        XMLElement* pParent = GetSoundSystemElement();
+        if(pParent)
+        {
+            PutBoolean(pParent, "ai-audio-dred", bEnable);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    bool ClientXML::GetAIAudioDRED(bool bDefValue)
+    {
+        XMLElement* child = GetSoundSystemElement();
+        bool bEnabled = bDefValue;
+        if(child)
+            GetBoolean(child, "ai-audio-dred", bEnabled);
+        return bEnabled;
+    }
+
+    bool ClientXML::SetAIAudioOSCE(bool bEnable)
+    {
+        XMLElement* pParent = GetSoundSystemElement();
+        if(pParent)
+        {
+            PutBoolean(pParent, "ai-audio-osce", bEnable);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    bool ClientXML::GetAIAudioOSCE(bool bDefValue)
+    {
+        XMLElement* child = GetSoundSystemElement();
+        bool bEnabled = bDefValue;
+        if(child)
+            GetBoolean(child, "ai-audio-osce", bEnabled);
+        return bEnabled;
+    }
+
     /**************** <events> ****************/
 
     void ClientXML::SetEventSoundsEnabled(unsigned uSoundEvents)

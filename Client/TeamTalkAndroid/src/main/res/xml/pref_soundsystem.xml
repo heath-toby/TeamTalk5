@@ -19,6 +19,18 @@
         android:title="@string/pref_title_voice_processing_checkbox"
         android:summary="@string/pref_summary_voice_processing_checkbox" />
 
+    <CheckBoxPreference
+        android:key="ai_dred_checkbox"
+        android:defaultValue="false"
+        android:title="@string/pref_title_ai_dred_checkbox"
+        android:summary="@string/pref_summary_ai_dred_checkbox" />
+
+    <CheckBoxPreference
+        android:key="ai_osce_checkbox"
+        android:defaultValue="false"
+        android:title="@string/pref_title_ai_osce_checkbox"
+        android:summary="@string/pref_summary_ai_osce_checkbox" />
+
 	<CheckBoxPreference
 		android:key="bluetooth_headset_checkbox"
 		android:defaultValue="false"
